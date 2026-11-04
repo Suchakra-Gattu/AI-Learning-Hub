@@ -1,0 +1,9 @@
+dist/
+code/harness/workspace/
+code/harness/session.jsonl
+__pycache__/
+*.pyc
+node_modules/
+.env
+code/llmops/train.jsonl
+code/llmops/holdout.jsonl

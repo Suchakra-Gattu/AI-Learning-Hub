@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "ui/style.css"
+        ],
+        "createdAt": "2026-11-02T04:27:46.254Z",
+        "reason": "model decision: line 131 is a rotated-border chevron icon for details/summary, not a card side stripe; user did not review"
+      }
+    ]
+  }
+}

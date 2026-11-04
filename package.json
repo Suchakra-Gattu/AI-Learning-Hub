@@ -1,0 +1,13 @@
+{
+  "name": "ai-engineering-learning",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A plain-language course on building AI systems: RAG from POC to production, then harness engineering and more.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/dev.mjs",
+    "check": "node scripts/build.mjs --check"
+  },
+  "engines": { "node": ">=18" }
+}

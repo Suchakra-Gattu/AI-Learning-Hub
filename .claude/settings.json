@@ -1,0 +1,6 @@
+{
+  "enabledPlugins": {
+    "humanizer-adelaidasofia@anthropic-plugin-directory": true,
+    "ponytail@ponytail": true
+  }
+}

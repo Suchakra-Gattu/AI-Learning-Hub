@@ -1,0 +1,127 @@
+{
+  "siteName": "AI Engineering, in plain words",
+  "headline": "Learn to build AI systems that still work when real people use them.",
+  "tagline": "A hands-on course for engineers and new graduates. Start with how a model works, build RAG from a 50-line script to a service, then learn agents, LangChain, evals, deployment, voice, fine-tuning and model serving. Every hard word is explained.",
+  "repoUrlBase": "",
+  "howTo": [
+    {
+      "title": "Read, then run.",
+      "text": "Most lessons have code in the code folder. Open a terminal beside the page and run it. Each lesson says what was run and what was only read."
+    },
+    {
+      "title": "Go in order the first time.",
+      "text": "Each lesson fixes a problem the last one left. Skipping ahead makes the fixes look random."
+    },
+    {
+      "title": "Answer the check questions out loud.",
+      "text": "If you cannot explain it to a teammate, read that part again."
+    },
+    {
+      "title": "Look up any hard word.",
+      "text": "The glossary explains every term in one or two lines, and search works across all lessons."
+    },
+    {
+      "title": "Want to go further?",
+      "text": "The Dig deeper track holds our source notes: what we read, what each source teaches, and what we could not verify."
+    }
+  ],
+  "ladder": [
+    {
+      "title": "A script that answers from your documents",
+      "text": "50 lines, no database, no framework. You see the whole idea before any tools get in the way.",
+      "lesson": "rag/poc-in-50-lines"
+    },
+    {
+      "title": "Cleaner input and smarter chunks",
+      "text": "Most bad answers start with bad text going in. Fix the reading and cutting first.",
+      "lesson": "rag/chunking"
+    },
+    {
+      "title": "Search that finds the right piece",
+      "text": "Keyword search, vector search, and mixing both. Then reranking and rewriting the question.",
+      "lesson": "rag/retrieval-that-works"
+    },
+    {
+      "title": "Answers you can trust",
+      "text": "Prompts that stay inside your documents, point to sources, and say 'I don't know' when they should.",
+      "lesson": "rag/prompt-and-citations"
+    },
+    {
+      "title": "Measure before you tune",
+      "text": "A test set and a few numbers, so every change is a fact and not a feeling.",
+      "lesson": "rag/measure-quality"
+    },
+    {
+      "title": "Fast, cheap, and safe",
+      "text": "Caching, cost control, access rules, and keeping private data private.",
+      "lesson": "rag/fast-cheap-safe"
+    },
+    {
+      "title": "Running it for real",
+      "text": "A web service, logs, monitoring, updates when documents change, and a launch checklist.",
+      "lesson": "rag/going-to-production"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "foundations",
+      "title": "Foundations",
+      "status": "ready",
+      "blurb": "What a language model does, what tokens and context windows are, your first API call, writing prompts, and getting JSON back. Five short lessons."
+    },
+    {
+      "id": "rag",
+      "title": "RAG: from POC to production",
+      "status": "ready",
+      "blurb": "Make an AI answer from your own documents. Fourteen lessons, from a 50-line script to a service you can launch."
+    },
+    {
+      "id": "agents",
+      "title": "Agents and LangChain",
+      "status": "ready",
+      "blurb": "Agents, LangChain, LangGraph, deep agents, managed deep agents, OpenWiki, and how to find integrations. Four lessons, one runnable graph."
+    },
+    {
+      "id": "harness",
+      "title": "Harness engineering",
+      "status": "ready",
+      "blurb": "Everything around the model that makes an agent usable: the loop, tools, permissions, memory, logs. DeepSeek Harness is the worked example."
+    },
+    {
+      "id": "evals",
+      "title": "Evals and observability",
+      "status": "ready",
+      "blurb": "Datasets, experiments, judges, live checks, refining prompts, and tools like LangSmith Engine that find problems for you."
+    },
+    {
+      "id": "voice",
+      "title": "Voice AI",
+      "status": "ready",
+      "blurb": "How an AI phone or web call works: the speech-to-text, model, text-to-speech chain, where the delay hides, turn-taking, WebRTC, SIP and LiveKit."
+    },
+    {
+      "id": "llmops",
+      "title": "LLMOps and fine-tuning",
+      "status": "ready",
+      "blurb": "When to prompt, retrieve, or fine-tune. Training data, SFT, LoRA, DPO, tracking runs, scoring answers, and watching a live system."
+    },
+    {
+      "id": "inference",
+      "title": "Inference and edge",
+      "status": "ready",
+      "blurb": "What a model server does with your prompt: prefill, decode, KV cache, vLLM, SGLang, TensorRT-LLM, Dynamo, GGUF, and fair benchmarks."
+    },
+    {
+      "id": "research",
+      "title": "Dig deeper: research notes",
+      "status": "ready",
+      "blurb": "The source notes behind the lessons: what each outside resource teaches, how to read it, and what we could not verify. Start here if you want to go further."
+    },
+    {
+      "id": "deploy",
+      "title": "Deploy and monitor",
+      "status": "ready",
+      "blurb": "Tracing, dashboards, alerts, where to host an agent, the LLM gateway, and a script that watches upstream docs for changes."
+    }
+  ]
+}

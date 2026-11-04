@@ -1,0 +1,102 @@
+[
+ {
+  "question": "How long do I have to return a tent?",
+  "source": "returns.md",
+  "must_contain": "60 days"
+ },
+ {
+  "question": "When will my refund show up?",
+  "source": "returns.md",
+  "must_contain": "5 to 7 business days"
+ },
+ {
+  "question": "Can I send back a fuel canister?",
+  "source": "returns.md",
+  "must_contain": "cannot be returned"
+ },
+ {
+  "question": "how much does express delivery cost",
+  "source": "shipping.md",
+  "must_contain": "15 dollars"
+ },
+ {
+  "question": "Do you ship to Canada?",
+  "source": "shipping.md",
+  "must_contain": "Canada"
+ },
+ {
+  "question": "I ordered at 4pm, when does it leave the warehouse?",
+  "source": "shipping.md",
+  "must_contain": "next business day"
+ },
+ {
+  "question": "Is a broken zipper covered?",
+  "source": "warranty.md",
+  "must_contain": "Zippers"
+ },
+ {
+  "question": "How do I file a warranty claim?",
+  "source": "warranty.md",
+  "must_contain": "two photos"
+ },
+ {
+  "question": "My jacket faded in the sun, is that covered?",
+  "source": "warranty.md",
+  "must_contain": "UV fading"
+ },
+ {
+  "question": "What does it cost to fix a tent floor?",
+  "source": "repairs.md",
+  "must_contain": "25 dollars"
+ },
+ {
+  "question": "How long does a repair take?",
+  "source": "repairs.md",
+  "must_contain": "10 to 14 business days"
+ },
+ {
+  "question": "Can you make my jacket waterproof again?",
+  "source": "repairs.md",
+  "must_contain": "Re-waterproofing"
+ },
+ {
+  "question": "Can I get my money back on a sleeping bag after 45 days?",
+  "source": "returns.md",
+  "must_contain": "60 days"
+ },
+ {
+  "question": "Will I owe customs fees if I order from Toronto?",
+  "source": "shipping.md",
+  "must_contain": "import duties"
+ },
+ {
+  "question": "When do I get a tracking number?",
+  "source": "shipping.md",
+  "must_contain": "tracking email"
+ },
+ {
+  "question": "The stitching on my backpack came apart after 3 years",
+  "source": "warranty.md",
+  "must_contain": "5 year warranty"
+ },
+ {
+  "question": "Who do I email about a damaged tent?",
+  "source": "warranty.md",
+  "must_contain": "warranty@northwind.example"
+ },
+ {
+  "question": "Is shipping free on a 90 dollar order?",
+  "source": "shipping.md",
+  "must_contain": "free"
+ },
+ {
+  "question": "what is the cheapest delivery option",
+  "source": "shipping.md",
+  "must_contain": "6 dollars"
+ },
+ {
+  "question": "Do you take back boots I had made to fit my feet?",
+  "source": "returns.md",
+  "must_contain": "custom-fit boots"
+ }
+]
