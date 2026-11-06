@@ -79,6 +79,8 @@ Treat a new index like a new release:
 
 This is also how you change the embedding model or chunk size safely.
 
+A new embedding model often makes vectors of a different length, say 1024 numbers instead of 768. One neat trick: name the vector field after its length (`vec_768`, `vec_1024`). Old chunks keep the old field, re-embedded chunks get the new one, and search reads whichever field matches the model in use. The index never mixes vectors from two models in one field. [RAGFlow](lesson:ragflow/ingestion) does exactly this.
+
 :::warn
 Never re-embed "in place" while users are searching. For a while the index will hold a mix of old and new vectors that do not match, and search quality drops in confusing ways.
 :::

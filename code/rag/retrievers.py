@@ -19,6 +19,12 @@ def overlap_search(question, chunks, k=3):
 
 # ---------- BM25 ----------
 def bm25_search(question, chunks, k=3, k1=1.5, b=0.75):
+    scores = sorted(((s, i) for i, s in enumerate(bm25_scores(question, chunks, k1, b))), reverse=True)
+    return [chunks[i] for s, i in scores[:k] if s > 0]
+
+
+def bm25_scores(question, chunks, k1=1.5, b=0.75):
+    """One BM25 score per chunk, in chunk order. Higher is better; there is no top limit."""
     docs = [content_words(c["text"]) for c in chunks]
     n = len(docs)
     avg_len = sum(len(d) for d in docs) / n
@@ -35,9 +41,8 @@ def bm25_search(question, chunks, k=3, k1=1.5, b=0.75):
                 continue
             idf = math.log(1 + (n - df[w] + 0.5) / (df[w] + 0.5))
             s += idf * tf[w] * (k1 + 1) / (tf[w] + k1 * (1 - b + b * len(d) / avg_len))
-        scores.append((s, i))
-    scores.sort(reverse=True)
-    return [chunks[i] for s, i in scores[:k] if s > 0]
+        scores.append(s)
+    return scores
 
 
 # ---------- Toy vector search ----------
@@ -54,9 +59,14 @@ def _cosine(a, b):
 
 
 def vector_search(question, chunks, k=3):
-    q = _grams(question)
-    scored = sorted(((_cosine(q, _grams(c["text"])), i) for i, c in enumerate(chunks)), reverse=True)
+    scored = sorted(((s, i) for i, s in enumerate(vector_scores(question, chunks))), reverse=True)
     return [chunks[i] for s, i in scored[:k] if s > 0]
+
+
+def vector_scores(question, chunks):
+    """One cosine score per chunk, in chunk order. Between 0 and 1."""
+    q = _grams(question)
+    return [_cosine(q, _grams(c["text"])) for c in chunks]
 
 
 # ---------- Hybrid ----------

@@ -20,6 +20,8 @@ That is all of it. Three steps:
 
 If you have ever copied a paragraph from a wiki into a chat window and then asked a question about it, you have done RAG by hand. A RAG system does the copying for you, for every question, in a fraction of a second.
 
+The name comes from a 2020 research paper by Lewis and others at Facebook AI ([paper](https://arxiv.org/abs/2005.11401)). They paired a language model with a searchable index of Wikipedia and let the model read what the search found before it wrote. Today the word covers any system that looks things up first and answers second.
+
 ## Why not just train the model on our documents?
 
 People ask this first. Here is the plain comparison.
@@ -33,6 +35,16 @@ People ask this first. Here is the plain comparison.
 | Teaches the model a new *style* or skill | No. | Yes. This is what training is good at. |
 
 For "answer questions using our documents", RAG is almost always the right first choice. Training is for changing how a model behaves, not for handing it facts.
+
+## Why not paste every document into the prompt?
+
+Newer models can read a lot of text in one request. If all your documents fit, why search at all? Sometimes you shouldn't. For a handful of short files, pasting them all works. It stops working as the pile grows:
+
+- **Cost and speed.** You pay for every word the model reads, on every question. Sending 500 pages to answer "do you ship to Canada?" is slow and expensive.
+- **Lost in the middle.** A 2023 study found models use facts at the start and end of a long prompt better than facts buried in the middle ([paper](https://arxiv.org/abs/2307.03172)). More text in the prompt can mean worse use of the one line that matters.
+- **It still has a ceiling.** The company wiki will outgrow any context window.
+
+The tools combine. RAG finds the few pages that matter, and a long context window lets you send more of them than the classic top 5. The [LLMOps track](lesson:llmops/prompt-rag-or-fine-tune) compares prompting, RAG and fine-tuning in more detail.
 
 ## What RAG is good at
 

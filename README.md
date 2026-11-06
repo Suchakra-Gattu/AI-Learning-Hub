@@ -26,7 +26,8 @@ No `npm install` is needed. To build static files without the server: `npm run b
 | Track | Lessons | What it covers |
 |---|---|---|
 | Foundations | 5 | Models, tokens, first API call, prompts, structured output |
-| RAG: from POC to production | 18 | Chunking, search, rerank and rewrite, contextual chunks, agentic RAG, evals, safety, freshness, going live |
+| RAG: from POC to production | 21 | Reading documents, chunking, embeddings, search, prompts, evals, safety, freshness, going live; then rerank and rewrite, contextual chunks, more ways to chunk, vectors at scale, judging answers, agentic RAG, graphs and trees |
+| Case study: RAGFlow | 4 | A real RAG product read from its code: parsing, chunk templates, weighted-sum search, citations, agentic search, gaps |
 | Agents and LangChain | 4 | Agents, middleware, LangGraph, deep agents, managed deep agents, OpenWiki, integrations |
 | Harness engineering | 8 | The loop, tools, permissions, logs, plugins, a tour of DeepSeek Harness, a mini harness |
 | Evals and observability | 3 | Datasets, judges, live checks, LangSmith Engine, Insights |
@@ -34,7 +35,7 @@ No `npm install` is needed. To build static files without the server: `npm run b
 | LLMOps and fine-tuning | 5 | Prompt vs RAG vs fine-tune, training data, SFT, LoRA, DPO, MLflow, scoring, monitoring |
 | Inference and edge | 4 | Prefill, decode, KV cache, vLLM, SGLang, TensorRT-LLM, Dynamo, GGUF, benchmarks |
 | Deploy and monitor | 4 | Tracing, dashboards, alerts, hosting options, LLM gateway, the docs watcher |
-| Dig deeper | 4 | Source notes for Awesome-RAG, ai-engineering-hub, LangChain, voice and LLMOps |
+| Dig deeper | 5 | Source notes for Awesome-RAG, ai-engineering-hub, LangChain, voice and LLMOps, RAGFlow |
 
 The RAG track and the Harness track are separate. The Harness track teaches the ideas with DeepSeek Harness as an example and does not build on top of it.
 
@@ -46,6 +47,7 @@ Code follows the [ponytail](https://github.com/DietrichGebert/ponytail) habit: t
 |---|---|---|
 | `code/foundations/` | First API call, token estimate, JSON checking | Run without an API key |
 | `code/rag/` | Stages 1 to 5: POC, better search, eval, FastAPI service, advanced experiments | Run (service via FastAPI's test client) |
+| `code/rag/chunk_strategies.py`, `vector_scale.py`, `fusion_compare.py`, `answer_check.py` | Five chunking methods, smaller vectors, RRF vs weighted sum and multi-query, a faithfulness check | Run, standard library only |
 | `code/harness/mini_harness.py` | A tiny agent harness with a scripted model | Run |
 | `code/agents/graph_demo.py` | LangGraph with a human pause, no model | Run with `langgraph` 1.2.19 |
 | `code/evals/mini_eval.py` | Dataset, target, evaluator, experiment in 40 lines | Run |
@@ -54,9 +56,9 @@ Code follows the [ponytail](https://github.com/DietrichGebert/ponytail) habit: t
 | `code/inference/kv_cache.py` | KV cache size formula | Run |
 | `tools/docs_watcher.py` | Checks upstream LangChain pages our lessons cite and writes a diff report | Run, 37 pages |
 
-**Not tested, and the lessons say so:** any live model API call, the `sentence-transformers` snippet in the RAG track, LangChain and LangSmith examples (they need keys and accounts), LiveKit, SIP, vLLM, SGLang, TensorRT-LLM, Dynamo, llama.cpp, MLflow, and DeepSeek Harness itself. Those lessons are explained from official docs with links.
+**Not tested, and the lessons say so:** any live model API call, the `sentence-transformers` snippet in the RAG track, LangChain and LangSmith examples (they need keys and accounts), late chunking, RAGFlow itself (read from its code, not run), LiveKit, SIP, vLLM, SGLang, TensorRT-LLM, Dynamo, llama.cpp, MLflow, and DeepSeek Harness itself. Those lessons are explained from official docs with links.
 
-RAG numbers come from `stage3_eval.py` and `stage5_advanced.py` on four short files and 20 questions. A one-question change is noise.
+RAG numbers come from `stage3_eval.py`, `stage5_advanced.py` and the four scripts above, on four short files and 20 questions. A one-question change is noise.
 
 ## The docs watcher
 

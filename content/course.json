@@ -73,7 +73,13 @@
       "id": "rag",
       "title": "RAG: from POC to production",
       "status": "ready",
-      "blurb": "Make an AI answer from your own documents. Fourteen lessons, from a 50-line script to a service you can launch."
+      "blurb": "Make an AI answer from your own documents. Fourteen lessons take you from a 50-line script to a service you can launch, then seven more cover upgrades: reranking, rewriting, other ways to chunk, vectors at scale, judging answers, agentic search and graphs."
+    },
+    {
+      "id": "ragflow",
+      "title": "Case study: RAGFlow",
+      "status": "ready",
+      "blurb": "Open a real open-source RAG product and map it onto the RAG track: how it reads PDFs, cuts and embeds, searches, cites, runs agents, and what it leaves out. Read from the code, four lessons."
     },
     {
       "id": "agents",

@@ -16,7 +16,7 @@ Stage 1 counted shared words. **BM25** is the classic upgrade, used inside many 
 - A **rare word counts more** than a common one. Matching "waterproofing" tells you much more than matching "item".
 - A **long chunk should not win just for being long**, since long texts contain more words by chance.
 
-It is in `code/rag/retrievers.py` as `bm25_search`, around 20 lines, no libraries. Notice the two ideas in the code:
+It is in `code/rag/retrievers.py`, no libraries: `bm25_scores` gives every chunk a score in about 20 lines, and `bm25_search` sorts them and keeps the top k. Notice the two ideas in the code:
 
 ```python
 idf = math.log(1 + (n - df[w] + 0.5) / (df[w] + 0.5))     # rare word -> bigger number
@@ -47,7 +47,34 @@ def hybrid_search(question, chunks, k=3, pool=8):
     return [by_text[t] for t, s in score.most_common(k)]
 ```
 
-The `60` is a conventional constant that keeps one first place from dominating. Leave it alone at first.
+The `60` is a conventional constant that keeps one first place from dominating. Leave it alone at first. The method comes from a 2009 paper by Cormack, Clarke and Buettcher ([paper](https://research.google/pubs/reciprocal-rank-fusion-outperforms-condorcet-and-individual-rank-learning-methods/)).
+
+### The other way to merge: a weighted sum
+
+Many products merge by score instead of by position: `final = w * vector_score + (1 - w) * keyword_score`. It has a dial, `w`, which is handy. It also has a trap. The two scores live on different scales. Run `python fusion_compare.py` and look at the first lines:
+
+```text
+Score ranges for "How long do I have to return a tent?":
+  bm25   0.00 .. 3.39
+  vector 0.03 .. 0.28
+  with w=0.7 on raw scores, vector's share of the top score is only 17% on average
+```
+
+You set the vector weight to 70%, and vector search ends up with about a sixth of the say. The usual fix is to **normalize** first: squash each list's scores to 0..1 (best is 1, worst is 0), then mix. RRF never has this problem because it ignores scores and uses only positions.
+
+```text
+rrf                    top-1  75%   top-3 100%   MRR 0.85
+weighted raw w=0.3     top-1  75%   top-3 100%   MRR 0.85
+weighted raw w=0.7     top-1  75%   top-3 100%   MRR 0.85
+weighted scaled w=0.3  top-1  75%   top-3 100%   MRR 0.86
+weighted scaled w=0.7  top-1  75%   top-3  95%   MRR 0.85
+```
+
+On our 20 easy questions they all land in the same place, so this table proves nothing about which is better. We would start with RRF, since it has nothing to tune. Move to a normalized weighted sum only if your test set shows that a dial helps. [RAGFlow](lesson:ragflow/search-and-answers) is a real product that takes the weighted-sum route.
+
+:::note Other search families
+Two more kinds of search sit between keywords and vectors. **Learned sparse** models such as SPLADE use a model to pick which words, including related words not in the text, a chunk should match on, and then store them in a keyword-style index ([paper](https://arxiv.org/abs/2107.05720)). **Late interaction** models such as ColBERT keep one small vector per word and compare question words against chunk words one by one ([paper](https://arxiv.org/abs/2004.12832)). Both often beat a single vector per chunk, and both cost more to store. Try them after hybrid search and a reranker.
+:::
 
 ## See the difference
 

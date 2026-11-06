@@ -11,7 +11,19 @@ Chunk search answers "find the paragraph about X". Some questions need more.
 "What are the main themes across all 5,000 tickets?" No single chunk holds that. Two ideas try to help:
 
 - **Graph RAG.** A model reads your text and builds a **graph**: things (people, products, places) joined by relationships. Questions are answered by walking the graph. Microsoft's open-source GraphRAG does this, and its own page warns that indexing "can be an expensive operation". It is research code in maintenance mode ([repo](https://github.com/microsoft/graphrag)).
+- **Tree of summaries (RAPTOR).** Group similar chunks, have a model summarize each group, then group and summarize the summaries, until one summary sits at the top. Store every level. A detailed question matches a leaf chunk, and a "what is this about" question matches a summary near the top ([paper](https://arxiv.org/abs/2401.18059)). The paper reports a 20-point gain on one reading benchmark when paired with GPT-4. That is the authors' result on their test, not ours.
 - **Tree RAG.** Build a table-of-contents tree of each document and let a model walk down to the right section, with no vectors at all. PageIndex does this ([repo](https://github.com/VectifyAI/PageIndex)). It claims strong results on one finance benchmark. That is the vendor's claim, which we did not check.
+
+### How GraphRAG builds its graph
+
+The GraphRAG paper ([paper](https://arxiv.org/abs/2404.16130)) goes in four steps:
+
+1. **Extract.** A model reads each chunk and lists the things in it, then the relationships between those things. Things first, links second, so every link joins two known things.
+2. **Group.** An algorithm called Leiden splits the graph into **communities**: clusters of things that link to each other far more than to the rest. It does this at several levels, from small clusters to large ones.
+3. **Summarize.** A model writes a report for each community.
+4. **Answer.** A *local* question ("who supplies the tent poles?") starts at the matching things and walks their links. A *global* question ("what are the main themes?") runs over the community reports: each one gives a partial answer, and a final call combines them.
+
+Step 2 is what makes global questions work. [RAGFlow](lesson:ragflow/agents-trees-graphs-and-gaps) shows what happens when a product reads community reports but has no code that writes them.
 
 Rule: use these only after plain hybrid search plus reranking fails on questions you have measured. They cost more to build and are harder to keep fresh.
 
@@ -38,7 +50,7 @@ The names come from the Awesome-RAG database list, which does not compare them. 
 
 ## Small to big
 
-Search over **small** chunks, since they match precisely. Then return the **bigger** parent section to the model for context. LlamaIndex lists this as a production step ([guide](https://developers.llamaindex.ai/python/framework/optimizing/production_rag/)).
+Search over **small** chunks, since they match precisely. Then return the **bigger** parent section to the model for context. LlamaIndex lists this as a production step ([guide](https://developers.llamaindex.ai/python/framework/optimizing/production_rag/)). [More ways to chunk](lesson:rag/more-ways-to-chunk) measures it against four other methods.
 
 ## Dig deeper
 
@@ -48,4 +60,4 @@ Our [research notes on Awesome-RAG](lesson:research/awesome-rag) list every sour
 The answer is spread over thousands of chunks, and top-5 shows only a handful. You need aggregation or a graph or summary approach.
 :::
 
-Next: [the launch checklist](lesson:rag/launch-checklist).
+Next: see all of this in a real product, starting with [the RAGFlow tour](lesson:ragflow/tour).

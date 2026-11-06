@@ -72,7 +72,7 @@ summary: Every hard word in the course, said simply. If a word is missing, add i
 **Middleware**: Code that runs before and after each step of an agent loop.
 **Prefill**: The phase where a model reads the whole prompt at once.
 **QLoRA**: LoRA on a model whose weights are stored in 4 bits to save memory.
-**Quantization**: Storing a model's numbers with fewer bits so it is smaller and runs on smaller hardware.
+**Quantization**: Storing numbers with fewer bits so they take less space. Used for model weights and for stored vectors. See [vectors at scale](lesson:rag/vectors-at-scale).
 **Reducer**: In LangGraph, the rule for merging a node's update into the state: replace or append.
 **SFT**: Supervised fine-tuning. Training on pairs of input and wanted output.
 **SIP**: The protocol that starts, changes, and ends phone calls over the internet.
@@ -81,3 +81,31 @@ summary: Every hard word in the course, said simply. If a word is missing, add i
 **Trace**: A step-by-step record of one request: model calls, tool calls, inputs, outputs, time, cost.
 **VAD**: Voice activity detection. A small model that tells speech from silence.
 **WebRTC**: A way for browsers and apps to send audio and video directly between devices.
+**ANN (approximate nearest neighbour)**: Vector search that returns almost the closest vectors, much faster than checking every one. See [vectors at scale](lesson:rag/vectors-at-scale).
+**Answer relevance**: A check that the answer addresses the question that was asked. See [judging answers](lesson:rag/judging-answers).
+**Asymmetric embedding**: An embedding model that encodes questions and documents in different modes. Tell it which one you are sending.
+**ColBERT**: A search model that keeps one small vector per word and compares question words with chunk words one by one. Also called late interaction.
+**Community (graph)**: A cluster of things in a knowledge graph that link to each other much more than to the rest. GraphRAG writes a summary per community.
+**Context precision**: Of the chunks you retrieved, the share that were useful for the answer.
+**Context recall**: Whether the retrieved chunks held everything needed to answer.
+**Faithfulness**: A check that every claim in the answer is backed by the retrieved chunks. Also called groundedness. See [judging answers](lesson:rag/judging-answers).
+**GraphRAG**: RAG over a graph of things and their relationships that a model extracted from your text. See [beyond chunks](lesson:rag/beyond-chunks).
+**HNSW**: The most common approximate vector index. Each vector links to near neighbours, and search walks the links toward the question.
+**HyDE**: Search with a model-written fake answer instead of the question, because it looks more like your documents.
+**Late chunking**: Embed the whole document first, then cut the per-token output into chunk vectors, so each chunk vector saw the whole document.
+**Layout analysis**: A vision model labels regions of a page (title, text, table, figure) so text comes out in the right order.
+**LLM judge**: A language model asked to score another model's answer. Check it against your own labels before you trust it.
+**Matryoshka embedding**: An embedding trained so its first few hundred numbers still work alone, letting you store shorter vectors.
+**Min-max normalization**: Rescale a list of scores so the best is 1 and the worst is 0. Needed before you add scores from different sources.
+**Multi-query**: Search with several rewordings of the question and merge the results.
+**NDCG**: A ranking score that can credit several right results and give very relevant ones more points than slightly relevant ones.
+**Parent and child chunks**: Search small child pieces for precision, then give the model the bigger parent section they came from.
+**Precision@k**: Of the top k results, the share that were right.
+**RAPTOR**: A tree of summaries over your chunks, built by grouping and summarizing again and again. Lets search match a detail or the big picture.
+**Recall@k**: Of all the right results, the share that made it into the top k.
+**RRF (reciprocal rank fusion)**: Merge ranked lists by position, not score. A result high on several lists rises to the top.
+**Semantic chunking**: Cut text where the meaning of neighbouring sentences changes, measured with embeddings.
+**Sentence window**: Search single sentences, then give the model each found sentence with its neighbours.
+**SPLADE**: A model that picks which words, including related words not in the text, a chunk should match on, stored in a keyword-style index.
+**Table structure recognition**: A model that finds rows, columns and merged cells inside a table image so it can be rebuilt as a real table.
+**Weighted-sum fusion**: Merge keyword and vector search as w times one score plus (1 minus w) times the other. Normalize the scores first.

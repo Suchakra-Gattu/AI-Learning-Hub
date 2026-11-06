@@ -53,6 +53,40 @@ def citations_are_valid(answer, num_chunks):
     return all(1 <= n <= num_chunks for n in cited_numbers(answer))
 ```
 
+### When the model writes citations badly, or not at all
+
+Real models drift from the format you asked for. You ask for `[1]` and get `(1)`, `【1】` or `[note 1]`. Before you check citations, **repair** them: a few regular expressions that turn near-misses into the format you want.
+
+Sometimes there are no markers at all. Then you can add citations yourself after the fact. Split the answer into sentences, compare each sentence with each note you sent, and attach the best match. `code/rag/answer_check.py` does this with word overlap:
+
+```bash
+cd code/rag
+python answer_check.py
+```
+
+```text
+grounded: faithfulness 100%, chunks actually used 1 of 3
+  100%  [1]         Tents can be returned within 60 days if they have not been slept in.
+   89%  [1]         Most other items must be returned within 30 days of delivery.
+```
+
+A sentence that matches no note well gets no citation, and that tells you something too. The [judging answers](lesson:rag/judging-answers) lesson uses the same script to catch invented claims.
+
+### Citations in a streamed answer
+
+If you stream the answer word by word, a marker can arrive split in two: `[` in one piece, `1]` in the next. Buffer a few characters before you show or strip anything that looks like the start of a marker.
+
+## Fit everything in the window
+
+The prompt holds four things: your rules, the notes, the chat history, and the question. All of them must fit in the model's **context window** with room left for the answer. A common plan, in order:
+
+1. Count tokens for the rules and the question first. Those always go in.
+2. Add notes, best first, until you hit your notes budget. Drop the rest.
+3. Add chat history newest first. Drop the oldest turns when space runs out.
+4. Keep a margin, say 5%, because token counts are estimates.
+
+Order inside the notes matters too. Models pay most attention to the start and end of a long prompt ([paper](https://arxiv.org/abs/2307.03172)). Put the best note first. With many notes, some teams put the second best last.
+
 ## Put the notes in a clear shape
 
 Models do better when each note is clearly separated and labeled. Our format:

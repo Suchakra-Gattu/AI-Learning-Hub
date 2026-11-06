@@ -54,8 +54,18 @@ A model reads the whole document plus one chunk and writes the note. The cost is
 
 When your documents change, the notes for changed chunks must be rewritten. Add that to your [freshness plan](lesson:rag/keeping-data-fresh).
 
+## Other things a model can add to a chunk
+
+The same "one model call per chunk at indexing time" budget can buy other additions:
+
+- **Questions this chunk answers.** Index the questions along with the text. A user's question then has a close match even when their words differ from the document's. An early version of this idea is doc2query ([paper](https://arxiv.org/abs/1904.08375)).
+- **Keywords.** A few terms, including synonyms the text doesn't use, for keyword search to catch.
+- **A one-line summary.** Useful for long chunks and for showing in search results.
+
+For tables and images, a cheaper trick needs no model at all. Attach the paragraph just before and just after, since that text usually says what the table or picture is about. [RAGFlow](lesson:ragflow/ingestion) does both: a model writes questions, keywords and summaries, and nearby text is attached to tables and images.
+
 :::check Why add the context note before indexing and not at question time?
 Search compares the question to what is stored. If the stored text lacks the company name, the match fails before the model ever sees it.
 :::
 
-Next: [agentic RAG](lesson:rag/agentic-rag).
+Next: [more ways to chunk](lesson:rag/more-ways-to-chunk).

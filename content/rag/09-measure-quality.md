@@ -55,6 +55,12 @@ A RAG system can fail in two places. Measure them apart, or you will not know wh
 
 This is what `stage3_eval.py` prints, with no model and no cost. It runs in a blink.
 
+Our test set has one right chunk per question, so these three numbers are enough. When a question has several right chunks, you will see three more numbers:
+
+- **Precision@k**: of the k chunks returned, how many were right.
+- **Recall@k**: of all the right chunks, how many made it into the top k.
+- **NDCG**: like MRR, but it can credit several right chunks and give "very relevant" more points than "a bit relevant".
+
 **2. Given the right text, was the answer good? (generation)**
 
 | Check | How |
@@ -64,7 +70,7 @@ This is what `stage3_eval.py` prints, with no model and no cost. It runs in a bl
 | Cited properly | Do the note numbers exist and match? |
 | Declines when it should | On no-answer questions, does it say so? |
 
-Checking these by reading is slow. Teams often use another model as a judge, which is a topic for the Evals track. For now, do it by hand for 20 answers once. It is the best education you will get.
+Checking these by reading is slow. Teams often use another model as a judge. [Judging answers](lesson:rag/judging-answers) covers the standard answer checks and the tools that run them, and the [Evals track](lesson:evals/why-test-an-agent) goes further. For now, do it by hand for 20 answers once. It is the best education you will get.
 
 ## Run it
 
