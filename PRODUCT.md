@@ -42,7 +42,7 @@ Voice: plain, direct, friendly. Short sentences. Explain a term the first time i
 
 ## Evidence on Hand
 
-No testimonials, benchmarks, or usage numbers exist. Do not invent any. The only external fact base so far is the DeepSeek Harness repo (github.com/deepseek-ai/deepseek-harness).
+No testimonials, benchmarks, or usage numbers exist. Do not invent any. External fact bases: the DeepSeek Harness repo (github.com/deepseek-ai/deepseek-harness), and the RAGFlow repo (github.com/infiniflow/ragflow) at commit eabad0c74, read for the case-study track. Other outside facts are linked in the lessons.
 
 ## Product Principles
 

@@ -108,6 +108,8 @@ Print five chunks from your own documents. Read each one alone, as if it were al
 
 **Parent and child** is worth knowing. You search small, precise chunks, because small chunks match questions sharply. Then you swap each hit for the larger section it came from, so the model gets full context. Try it once basic chunking is solid.
 
+The [more ways to chunk](lesson:rag/more-ways-to-chunk) lesson runs five of these methods on the same questions and compares them.
+
 ## What the numbers say
 
 Chunking advice online is full of magic numbers. Treat all of them as guesses until you test on your own questions. In the next lessons you will build a test set, and then you can try 100 words against 250 words and know which is better.

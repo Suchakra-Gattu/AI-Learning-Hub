@@ -71,6 +71,7 @@ Stage 4 is a good skeleton, not a finished product. Here is the rest, grouped.
 - **More than one copy** of the service behind a load balancer, so one crash is not an outage.
 - **Secrets** (API keys) from a secret store, not from files in the repo.
 - **A fallback.** If the model is down, show search results alone, or a polite message.
+- **Indexing as a queue of jobs.** Reading a 300-page PDF can take minutes. Don't do it inside a web request. Put an "index this file" job on a queue (Celery, RQ, NATS, SQS), and let workers pick jobs up. Give each job a state, such as `created → running → done | failed | stopped`, and a progress number the UI can show. A failed job can then be retried without starting the whole collection again.
 
 ### Replace the in-memory parts
 

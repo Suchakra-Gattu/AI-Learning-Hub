@@ -39,6 +39,22 @@ Things people find when they finally look:
 
 You do not need to solve all of these on day one. You do need to know which ones *your* documents have.
 
+## How a serious PDF reader works
+
+Simple extractors read the text layer of a PDF and stop. Tools built for messy documents do more, one page at a time:
+
+1. **Read the text layer.** A PDF made by Word or a browser already contains the characters. Take them. This is fast and exact.
+2. **Decide if the page needs OCR.** If the text layer is empty or garbage, the page is probably a scan. Render the page as an image and read it with **OCR** (optical character recognition: software that reads text from a picture).
+3. **OCR in two steps.** A **detector** finds boxes around each line of text. A **recognizer** reads the letters inside each box. PaddleOCR, a popular open-source OCR kit, is built this way ([repo](https://github.com/PaddlePaddle/PaddleOCR)).
+4. **Layout analysis.** A vision model labels each region of the page: title, body text, table, figure, caption, header, footer. Those labels give you reading order (left column before right), headings for chunking, and junk to drop.
+5. **Table structure.** For each region marked as a table, a second model finds rows, columns and merged cells, so the table comes out as a real table (HTML or Markdown) and not a soup of numbers.
+
+You rarely build this yourself. Open-source options include Docling ([repo](https://github.com/docling-project/docling)) and MinerU ([repo](https://github.com/opendatalab/MinerU)). Cloud services include AWS Textract, Google Document AI and Azure AI Document Intelligence. They differ in cost, speed, languages, and whether your files leave your network. Test two or three on your ugliest files before you pick.
+
+:::note See one up close
+RAGFlow, an open-source RAG product, runs all five steps locally with small models on the CPU. The [RAGFlow ingestion lesson](lesson:ragflow/ingestion) walks through it.
+:::
+
 ## Keep the labels
 
 While you read, collect **metadata**. That is information about the text rather than the text itself.

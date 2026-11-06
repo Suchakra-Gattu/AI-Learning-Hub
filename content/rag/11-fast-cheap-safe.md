@@ -69,6 +69,14 @@ def answer_for(question: str):
 
 Notice the limits. "How long to return a tent?" and "how long do i have to return a tent" are different strings, so they miss. Better caches match by meaning, using embeddings. Also, a cached answer must be cleared when the documents change ([lesson 12](lesson:rag/keeping-data-fresh)).
 
+### Caching embeddings while you index
+
+Indexing pays the embedding provider for every chunk. If a job crashes at chunk 9,000 of 10,000 and starts over, you pay for 9,000 chunks twice. Cache each embedding under a key built from **the model name plus the exact chunk text**. A retry then pays only for what is missing. Put the model name in the key so that changing models never serves an old vector.
+
+Send chunks in batches (the provider's docs give the maximum batch size), not one call per chunk.
+
+When several indexing workers share one API key, a **429** reply (the provider saying "too many requests") hits all of them together. If each worker backs off on its own, they all retry at once and get 429 again. Share the backoff: when one worker gets a 429, all workers on that key wait. [RAGFlow does this](lesson:ragflow/ingestion).
+
 ## Safe
 
 Safety here means three things: people only see what they are allowed to see, attackers cannot trick the bot, and private data does not leak.

@@ -31,7 +31,7 @@ This is called **vector search**, or **semantic search** ("semantic" means "abou
 
 ## Try the mechanics with no installs
 
-`code/rag/retrievers.py` has a toy version. It does not use a model. It breaks text into 3-letter pieces and compares how many pieces two texts share, using cosine similarity. That is not true meaning, so it will not link "customs" with "duties". But the compare-two-lists machinery is exactly what real vector search does, so you can read the whole mechanism in 15 lines.
+`code/rag/retrievers.py` has a toy version. It does not use a model. It breaks text into 3-letter pieces and compares how many pieces two texts share, using cosine similarity. That is not true meaning, so it will not link "customs" with "duties". But the compare-two-lists machinery is exactly what real vector search does, so you can read the whole mechanism in under 20 lines.
 
 ```python
 def _grams(text, n=3):
@@ -45,9 +45,12 @@ def _cosine(a, b):
     return dot / (na * nb) if na and nb else 0.0
 
 def vector_search(question, chunks, k=3):
-    q = _grams(question)
-    scored = sorted(((_cosine(q, _grams(c["text"])), i) for i, c in enumerate(chunks)), reverse=True)
+    scored = sorted(((s, i) for i, s in enumerate(vector_scores(question, chunks))), reverse=True)
     return [chunks[i] for s, i in scored[:k] if s > 0]
+
+def vector_scores(question, chunks):
+    q = _grams(question)
+    return [_cosine(q, _grams(c["text"])) for c in chunks]
 ```
 
 On the 20 test questions in this repo, this toy already does well, partly because it forgives small spelling differences ("deliver" and "delivery" share pieces). That is a lesson too: some of what looks like "understanding" is just fuzzier matching.
@@ -89,12 +92,15 @@ Plug `semantic_search` into `stage3_eval.py` as one more row, and compare it wit
 - **Use the same model for chunks and questions.** Numbers from different models do not live on the same map.
 - **If you change the model, re-embed everything.** Old and new vectors cannot be mixed.
 - **Note the model name next to your index.** You will thank yourself later.
+- **Tell the model which side it is reading.** Many embedding models are **asymmetric**: they encode a short question differently from a long passage, because the two look nothing alike. Cohere's API takes an `input_type` of `search_query` or `search_document` ([docs](https://docs.cohere.com/reference/embed)), and Voyage's takes `query` or `document` ([docs](https://docs.voyageai.com/docs/embeddings)). Some open models want a text prefix such as `query: ` instead. Read your model's card. If you skip this, search quietly gets worse and nothing errors.
 
 ## Where the vectors live
 
 For a few thousand chunks, a plain array in memory is fine. Past that, use a **vector database**, which stores embeddings and finds close ones quickly. Options include pgvector (a Postgres add-on), Qdrant, Chroma, and others. Pick the one that fits what you already run. If your team already uses Postgres, pgvector is often the least new machinery.
 
 Do not choose the database first. The retrieval quality comes from your chunks and your embeddings model, not the database brand.
+
+When you get past a few hundred thousand chunks, memory and speed start to matter. [Vectors at scale](lesson:rag/vectors-at-scale) covers fast approximate search, smaller vectors, and switching models without downtime.
 
 ## Vectors have weak spots too
 
