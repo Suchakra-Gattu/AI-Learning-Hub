@@ -106,6 +106,12 @@
       "blurb": "How an AI phone or web call works: the speech-to-text, model, text-to-speech chain, where the delay hides, turn-taking, WebRTC, SIP and LiveKit."
     },
     {
+      "id": "voice-prod",
+      "title": "Voice in production",
+      "status": "ready",
+      "blurb": "A case study of a real phone-agent platform. Phone audio, WebRTC from the wire up, SFUs and LiveKit, then the engineering that keeps calls alive: auth on sockets, async hot paths, events, retries, latency, privacy, testing and shipping. Seventeen lessons, eleven runnable scripts, one checklist."
+    },
+    {
       "id": "llmops",
       "title": "LLMOps and fine-tuning",
       "status": "ready",

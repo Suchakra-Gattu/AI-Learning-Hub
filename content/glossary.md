@@ -109,3 +109,60 @@ summary: Every hard word in the course, said simply. If a word is missing, add i
 **SPLADE**: A model that picks which words, including related words not in the text, a chunk should match on, stored in a keyword-style index.
 **Table structure recognition**: A model that finds rows, columns and merged cells inside a table image so it can be rebuilt as a real table.
 **Weighted-sum fusion**: Merge keyword and vector search as w times one score plus (1 minus w) times the other. Normalize the scores first.
+**µ-law (G.711)**: A phone codec that stores each audio sample in 1 byte, keeping more detail for quiet sounds than loud ones. See [phone audio](lesson:voice-prod/phone-audio-is-different).
+**PCM16**: Raw audio where each sample is a signed 16-bit number, 2 bytes per sample.
+**Sample rate**: How many times per second audio is measured. Phone calls use 8 kHz; WebRTC's Opus runs at 48 kHz.
+**Frame (audio)**: A fixed slice of audio sent as one unit, such as 20 ms.
+**API gateway**: The one public entry point that routes each request path to the service that owns it.
+**Media bridge**: A service that takes a carrier's WebSocket audio and joins a LiveKit room as an ordinary participant.
+**Head-of-line blocking**: When one lost TCP packet makes every later packet wait for its resend.
+**Signaling**: The setup messages (SDP, ICE candidates) peers swap before media flows. WebRTC leaves it to you.
+**SDP**: Session Description Protocol. A text format describing a media session's codecs, keys and addresses.
+**Symmetric NAT**: A NAT that picks a new public port for each destination, so a STUN-learned address does not work for other peers and a TURN relay is needed.
+**DTLS-SRTP**: Using a DTLS handshake over UDP to create the keys that encrypt RTP media. WebRTC media is always encrypted this way.
+**RTP**: The packet format for real-time media. Each packet has a sequence number and a timestamp.
+**RTCP**: RTP's control channel. It carries loss and jitter reports and feedback such as NACKs.
+**NACK**: A receiver's message naming a packet it did not get, asking for a resend.
+**Opus**: The audio codec WebRTC uses by default. It runs at 48 kHz and can hide some packet loss with in-band FEC.
+**Jitter buffer**: A short hold on received audio that absorbs uneven arrival times, at the cost of added delay. See [WebRTC from the wire up](lesson:voice-prod/webrtc-from-the-wire-up).
+**PLC (packet loss concealment)**: The decoder makes up plausible audio for a missing frame.
+**SFU (selective forwarding unit)**: A server that forwards encoded media packets to subscribers without decoding them. See [mesh, MCU, SFU](lesson:voice-prod/mesh-mcu-sfu).
+**MCU (multipoint control unit)**: A server that decodes, mixes and re-encodes all streams into one stream per participant.
+**Simulcast**: A publisher sends several quality layers so the SFU can forward the one each subscriber can handle.
+**Room (LiveKit)**: A session that participants join. Usually one room per call. See [LiveKit concepts](lesson:voice-prod/livekit-concepts).
+**Participant**: Anyone or anything in a room: a browser, a phone leg, an agent, a recorder.
+**Track**: One stream of audio or video that a participant publishes and others subscribe to.
+**Egress**: LiveKit's service for recording or exporting a room or individual tracks.
+**Ingress**: LiveKit's service for bringing in media that is not WebRTC, such as RTMP or files.
+**Agent dispatch**: How LiveKit decides which agent worker joins which room. Without an agent name, a worker is sent to every room.
+**Prewarm**: Loading models once per worker process so each call does not pay the load time.
+**Stream ticket**: A one-time token, stored with a short expiry, that a carrier must present when it opens the audio WebSocket. See [who is on this socket](lesson:voice-prod/who-is-on-this-socket).
+**HMAC**: A keyed hash. Only someone holding the secret key can produce the right output.
+**Timing attack**: Guessing a secret by measuring how long a comparison takes to reject each guess. `hmac.compare_digest` prevents it.
+**Event loop**: One thread that switches between many async tasks. A blocking call stalls all of them. See [never block the audio loop](lesson:voice-prod/never-block-the-audio-loop).
+**Backpressure**: Slowing down a producer, or dropping its excess, when the consumer cannot keep up.
+**Pure function**: A function that returns the same output for the same input and changes nothing else. Easy to test.
+**Barge-in**: The caller talking over the agent, so the agent must stop and listen.
+**RMS**: Root mean square, a measure of how loud an audio frame is.
+**AMD (answering machine detection)**: Deciding whether an outbound call reached a person or voicemail.
+**Consumer group**: A named reader of a Redis Stream with its own position. Each entry goes to one consumer in the group. See [events that don't lie](lesson:voice-prod/events-that-dont-lie).
+**Pending entries list (PEL)**: Entries a consumer group delivered that nobody has acknowledged yet.
+**At-least-once delivery**: Nothing is lost, but a message can arrive more than once, so handlers must ignore repeats.
+**Idempotent**: Running it twice has the same effect as running it once.
+**Dead-letter queue**: Where a message goes after too many failed tries, for a human to look at.
+**Thundering herd**: Many clients that failed together retry together, and the burst knocks over the server that was recovering.
+**Full jitter**: Backoff where each retry waits a random time between zero and an exponentially growing cap.
+**SKIP LOCKED**: A Postgres option that makes a locking SELECT skip rows another transaction holds, so several workers can share a queue table safely.
+**Graceful drain**: On shutdown, stop taking new work and let work in progress finish before exiting. See [timeouts, retries and goodbyes](lesson:voice-prod/timeouts-retries-and-goodbyes).
+**SIGTERM**: The polite "please exit" signal a deploy sends first. SIGKILL follows if the process does not exit, and it cannot be caught.
+**Percentile (p95)**: The value that 95% of measurements are at or below. It shows the slow cases an average hides.
+**TTFS (time to first sentence)**: Time until the LLM has produced its first full sentence, which is when TTS can start speaking.
+**Fernet**: Symmetric encryption from Python's cryptography package that also detects tampering.
+**Fail closed**: When a check cannot be done, choose the answer that does the least harm, such as not recording.
+**PII**: Personally identifiable information, such as names, phone numbers or card numbers.
+**Test pyramid**: Many fast, cheap tests at the bottom and a few slow, expensive ones at the top.
+**Image tag**: A name that points at one container image version. `latest` is only a default name and can move under you.
+**Access token (LiveKit)**: A JWT signed with the LiveKit API secret. It names a participant's identity, the room, and what it may do there (join, publish, subscribe). Mint it on your server, never in the client.
+**Auto-subscribe**: LiveKit's default of sending every existing and future track in a room to each participant.
+**Dispatch rule**: A LiveKit SIP setting that decides which room an inbound phone caller joins.
+**Idle process**: An agent worker process started ahead of time and kept ready, with models already loaded, for the next call.
