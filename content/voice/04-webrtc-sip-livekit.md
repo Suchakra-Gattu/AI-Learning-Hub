@@ -46,3 +46,5 @@ Our [research notes on voice, LLMOps and inference](lesson:research/voice-llmops
 :::check What problem does a TURN server solve?
 When two devices cannot connect directly, for example behind strict firewalls, TURN relays their traffic so the call still works.
 :::
+
+Next: [Voice in production: the system map](lesson:voice-prod/the-system-map).

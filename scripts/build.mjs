@@ -408,7 +408,7 @@ if (!CHECK_ONLY) {
 </section>
 <section class="home-section" id="tracks">
   <h2>The course map</h2>
-  <p class="section-lede">Two tracks are written today. The rest are planned and will follow the same shape.</p>
+  <p class="section-lede">Every track is written. Go in order, or jump to the one you need.</p>
   <ul class="track-list">${trackCards}</ul>
 </section>
 <section class="home-section">
